@@ -1,7 +1,9 @@
 ## Advanced Lane Finding
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
-<img src="output_images/test2.jpg" alt="Combined Image" />
+<p align="center">
+ <img src="./overview.gif" alt="Overview" width="50%" height="50%">
+</p>
 
 In this project, your goal is to write a software pipeline to identify the lane boundaries in a video, but the main output or product we want you to create is a detailed writeup of the project.  Check out the [writeup template](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup.  
 
@@ -160,7 +162,7 @@ Then, use the built-in function `cv2.addWeighted()` to draw the lane onto the or
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./output_videos/project_video.mp4)
+Here's a [link to my video result](https://youtu.be/yKYVT8grtRQ)
 
 ---
 

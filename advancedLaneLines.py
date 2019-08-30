@@ -445,29 +445,27 @@ def video_pipeLine(img):
     text2 = "Vehicle Offset = " + str(abs(offset))
     cv2.putText(blend_onto_road, text2, (150, 150), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 255, 255), 3)
 
-    # img1 = cv2.resize(combined_binary, (320, 180), interpolation=cv2.INTER_AREA)
-    # img2 = cv2.resize(warped, (320, 180), interpolation=cv2.INTER_AREA)
-    # img3 = cv2.resize(out_img, (320, 180), interpolation=cv2.INTER_AREA)
-    # img4 = cv2.resize(result, (320, 180), interpolation=cv2.INTER_AREA)
-    #
-    # img1 = cv2.cvtColor(img1, cv2.COLOR_GRAY2BGR)
-    # img2 = cv2.cvtColor(img2, cv2.COLOR_GRAY2BGR)
-    #
-    # vis = np.zeros((720+180, 1280, 3))
-    #
+    # sub windows for debug
+    img1 = cv2.resize(combined_binary, (320, 180), interpolation=cv2.INTER_AREA)
+    img2 = cv2.resize(warped, (320, 180), interpolation=cv2.INTER_AREA)
+    img3 = cv2.resize(out_img, (320, 180), interpolation=cv2.INTER_AREA)
+    img4 = cv2.resize(result, (320, 180), interpolation=cv2.INTER_AREA)
+
+    img1 = cv2.cvtColor(img1, cv2.COLOR_GRAY2BGR)
+    img2 = cv2.cvtColor(img2, cv2.COLOR_GRAY2BGR)
+
+    vis = np.zeros((720+180, 1280, 3))
+
     # b, g, r = cv2.split(blend_onto_road)
     # blend_onto_road = cv2.merge([r, g, b])
-    #
-    # vis[:180, :320, :] = img1
-    # vis[:180, 320:640, :] = img2
-    # vis[:180, 640:960, :] = img3
-    # vis[:180, 960:1280, :] = img4
-    # vis[180:900, :1280, :] = blend_onto_road
-    #
-    # print(vis.shape)
-    # print(blend_onto_road.shape)
 
-    return blend_onto_road
+    vis[:180, :320, :] = img1 * 255
+    vis[:180, 320:640, :] = img2 * 255
+    vis[:180, 640:960, :] = img3
+    vis[:180, 960:1280, :] = img4
+    vis[180:900, :1280, 0:3] = blend_onto_road
+
+    return vis
 
 
 def test_videos():
@@ -477,13 +475,7 @@ def test_videos():
         # location = 'test_videos/challenge.mp4'
         # white_output = 'test_videos_output/challenge.mp4'
         location = 'test_videos/' + this_video
-        white_output = 'output_videos/' + this_video
-
-        # To speed up the testing process you may want to try your pipeline on a shorter subclip of the video
-        # To do so add .subclip(start_second,end_second) to the end of the line below
-        # Where start_second and end_second are integer values representing the start and end of the subclip
-        # You may also uncomment the following line for a subclip of the first 5 seconds
-        # clip1 = VideoFileClip("test_videos/solidWhiteRight.mp4").subclip(0,5)
+        white_output = 'output_videos/debug_' + this_video
 
         clip1 = VideoFileClip(location)
         white_clip = clip1.fl_image(video_pipeLine)  # NOTE: this function expects color images!!
@@ -497,18 +489,8 @@ def test_single_image():
 
     output_img = video_pipeLine(img)
 
-    save_location = 'output_images/test.jpg'
+    save_location = 'temp.jpg'
     mpimg.imsave(save_location, output_img)
-
-    # # Plot to see results
-    # f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
-    # f.tight_layout()
-    # ax1.imshow(img)
-    # ax1.set_title('Original Image', fontsize=20)
-    # ax2.imshow(output_img)
-    # ax2.set_title('Undistorted Image', fontsize=20)
-    # plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
-    # plt.show()
 
 
 def test_camera_cal():
